@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor/globals';
 
-export class BlaPage {
+export class CtrlSecPage {
   navigateTo() {
     return browser.get('/');
   }

@@ -1,14 +1,14 @@
-import { BlaPage } from './app.po';
+import { CtrlSecPage } from './app.po';
 
-describe('bla App', function() {
-  let page: BlaPage;
+describe('CtrlSec App', function() {
+  let page: CtrlSecPage;
 
   beforeEach(() => {
-    page = new BlaPage();
+    page = new CtrlSecPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display message saying CtrlSec', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('CtrlSec');
   });
 });
