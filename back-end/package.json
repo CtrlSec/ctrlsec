@@ -7,6 +7,7 @@
   "dependencies": {
     "ejs": "2.3.4",
     "include-all": "~0.1.6",
+    "jshint": "~2.9.3",
     "rc": "1.0.1",
     "sails": "~0.12.4",
     "sails-postgresql": "^0.11.4"

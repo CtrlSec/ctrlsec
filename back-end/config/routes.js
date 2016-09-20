@@ -12,8 +12,10 @@ var contents = fs.readdirSync(routes_path).map(function(file) {
 //Combina o conteúdo de todos os arquivos de rotas
 var routes = {};
 contents.forEach(function(content) {
-  for (p in content) {
-    routes[p] = content[p];
+  for (var p in content) {
+    if (content.hasOwnProperty(p)) {
+      routes[p] = content[p];
+    }
   }
 });
 
