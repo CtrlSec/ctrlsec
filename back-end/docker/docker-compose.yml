@@ -1,0 +1,53 @@
+version: '2'
+services:
+  nginx:
+    image: jwilder/nginx-proxy
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  sails:
+    build: ..
+    environment:
+      DB_HOST: postgres
+      DB_USER: app_user
+      DB_PASSWORD: app_password
+      DB_NAME: dbname
+      SESSION_SECRET: my_session_secret
+      PORT: 1337
+      VIRTUAL_HOST: localhost
+      NODE_ENV: development
+    restart: always
+    tty: true
+    user: root
+    networks:
+      - front-tier
+      - back-tier
+    volumes:
+      - ..:/usr/src/app
+      - /usr/src/app/node_modules
+
+  postgres:
+    image: postgres:9
+    container_name: postgres
+    environment:
+      POSTGRES_DB: dbname
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+    restart: always
+    volumes:
+      - datapersistance:/var/lib/postgresql/data
+    networks:
+      - back-tier
+
+networks:
+  front-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge
+
+volumes:
+  datapersistance:
+
