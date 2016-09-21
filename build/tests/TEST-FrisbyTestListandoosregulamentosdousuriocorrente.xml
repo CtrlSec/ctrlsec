@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-<testsuite name="Frisby Test: Listando os regulamentos do usuário corrente" errors="1" tests="1" failures="1" time="1.238" timestamp="2016-09-21T11:00:06">
+<testsuite name="Frisby Test: Listando os regulamentos do usuário corrente" errors="0" tests="1" failures="0" time="0.686" timestamp="2016-09-21T15:49:48">
   <testcase classname="Frisby Test: Listando os regulamentos do usuário corrente" name="
-	[ GET http://btmgm.tokenlab.com.br/api/terms ]" time="1.238"></testcase>
+	[ GET http://btmgm.tokenlab.com.br/api/terms ]" time="0.685"></testcase>
 </testsuite>
 </testsuites>
