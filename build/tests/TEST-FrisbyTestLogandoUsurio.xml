@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+<testsuite name="Frisby Test: Logando Usuário" errors="0" tests="1" failures="0" time="0.841" timestamp="2016-09-21T11:00:05">
+  <testcase classname="Frisby Test: Logando Usuário" name="
+	[ POST http://btmgm.tokenlab.com.br/api/auth/web ]" time="0.84"></testcase>
+</testsuite>
+</testsuites>
