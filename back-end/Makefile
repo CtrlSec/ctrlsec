@@ -33,7 +33,7 @@ rm_volumes:
 	# Remove TODOS os volumes de dados.
 	# SE executado sozinho então só apaga os volumes que não estão sendo usados
 	# SE executado após o "down" então irá apagar o banco de dados também
-	docker volume rm datapersistance
+	docker volume rm docker_datapersistance
 
 # Os comandos abaixo são executados em todos os containers do docker rodando no seu sistema.
 # Não apenas os containers desse projeto.
