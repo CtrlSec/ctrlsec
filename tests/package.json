@@ -1,0 +1,10 @@
+{
+  "name": "ctrlsec-tests",
+  "private": true,
+  "version": "0.0.1",
+  "description": "CtrlSec Tests",
+  "devDependencies": {
+    "frisby": "^0.8.5",
+    "jasmine-node": "^1.14.5"
+  }
+}
