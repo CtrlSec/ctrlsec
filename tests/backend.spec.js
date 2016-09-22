@@ -42,7 +42,7 @@ function efetuaLogin(){
   .inspectBody()
   .inspectRequest()
   .expectJSONTypes({
-    token2: String,
+    token: String,
     user: {type: String}
 
   })
