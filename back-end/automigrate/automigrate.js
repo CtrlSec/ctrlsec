@@ -1,8 +1,28 @@
-/* globals User */
 var fs = require('fs');
+var adapter;
+var cmds = {
+  'sails-postgresql': {
+    file: '/automigrate/schema-postgres.sql',
+    q_check_directory: "SELECT * FROM automigrate WHERE directory='@{directory}'",
+    q_add_entry: "INSERT INTO automigrate (directory, last_file, updatedAt) VALUES('@{directory}', ' ', now())",
+    q_update_entry: "UPDATE automigrate SET last_file='@{last_file}', updatedAt=now() WHERE directory='@{path}'"
+  },
+  'sails-mysql': {
+    file: '/automigrate/schema-mysql.sql',
+    q_check_directory: "SELECT * FROM `automigrate` WHERE directory='@{directory}'",
+    q_add_entry: "INSERT INTO `automigrate` (directory, last_file, updatedAt) VALUES('@{directory}', ' ', now())",
+    q_update_entry: "UPDATE `automigrate` SET last_file='@{last_file}', updatedAt=now() WHERE directory='@{path}'"
+  }
+};
 
-var now = function () {
-  return new Date().toISOString().replace("T", " ").substring(0, 19);
+var exec_query = function (q, cb) {
+  adapter.query(sails.config.models.connection, null, q, null, function (err, result) {
+    if(err) {
+      cb(err);
+    } else {
+      cb(null, result.rows)
+    }
+  });
 };
 
 var check_if_is_directory = function (list, cb) {
@@ -38,7 +58,7 @@ var load_sql = function (path, cb, print_logs) {
   async.eachOfSeries(qlist, function (q, n, callback) {
     q = _.trim(q, "\n\r\t ");  // Retira whitespace e excesso de quebra de linha (de novo)
     if(q) {
-      User.query(q, function (err) {
+      exec_query(q, function (err) {
         if (err) {
           if (print_logs) {
             console.info("AUTOMIGRATE:    Statement " + n + ": ERROR!");
@@ -62,20 +82,20 @@ var load_sql = function (path, cb, print_logs) {
 };
 
 var ensures_that_table_exists = function (cb) {
-  load_sql(sails.config.appPath+'/automigrate/schema.sql', cb, false);
+  load_sql(sails.config.appPath+cmds[adapter.identity].file, cb, false);
 };
 
 var ensures_that_entry_exists = function (entry, cb) {
-  var q = "SELECT * FROM `automigrate` WHERE directory='"+entry+"'";
-  User.query(q, function (err, rows) {
+  var q = cmds[adapter.identity].q_check_directory.replace("@{directory}", entry);
+  exec_query(q, function (err, rows) {
     if (err) {
       cb(err);
     } else {
       if (rows.length > 0) {
         cb(null, rows[0].last_file);
       } else {
-        var qq = "INSERT INTO `automigrate` (directory, last_file, updatedAt) VALUES('"+entry+"', ' ', time('"+now()+"'))";
-        User.query(qq, function (err) {
+        var qq = cmds[adapter.identity].q_add_entry.replace("@{directory}", entry);
+        exec_query(qq, function (err) {
           if (err) {
             cb(err, null);
           } else {
@@ -88,8 +108,8 @@ var ensures_that_entry_exists = function (entry, cb) {
 };
 
 var update_entry = function(path, last_file, cb) {
-  var q = "UPDATE `automigrate` SET last_file='"+last_file+"', updatedAt=time('"+now()+"') WHERE directory='"+path+"'";
-  User.query(q, function (err) {
+  var q = cmds[adapter.identity].q_add_entry.replace("@{last_file}", last_file).replace("@{path}", path);
+  exec_query(q, function (err) {
     if (err) {
       cb(err);
     } else {
@@ -139,7 +159,8 @@ var run_migrations = function (list, cb) {
 
 module.exports = {
   auto: function (pathlist, cb) {
-    if (typeof User !== 'undefined') {
+    adapter = sails.adapters['sails-postgresql'] || sails.adapters['sails-mysql'];
+    if (typeof adapter !== 'undefined') {
       if (typeof pathlist === 'string') {
         pathlist = [pathlist];
       }
