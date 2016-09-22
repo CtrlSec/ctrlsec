@@ -22,7 +22,7 @@ efetuaLogin()
 /*function criaNumeroUsuarios( qtde ){
 
  for (numero=1; numero<=qtde; numero++){
-
+asasa
      console.log(numero)
      criarUsuario()
 
