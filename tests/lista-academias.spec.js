@@ -20,7 +20,7 @@ describe("Listing detailed gyms", function() {
       })
       .expectStatus(200)
       .expectJSONTypes({
-        gyms: Array,
+        gyms2: Array,
         days_to_expire: Number,
         start_date: String,
         end_date: String
