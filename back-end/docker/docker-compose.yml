@@ -34,7 +34,7 @@ services:
       - back-tier
     volumes:
       - ..:/usr/src/app
-      - /usr/src/app/node_modules
+      - node_modules:/usr/src/app/node_modules
     depends_on:
       - postgres
 
@@ -59,4 +59,6 @@ networks:
 
 volumes:
   datapersistance:
-
+    driver: local
+  node_modules:
+    driver: local
