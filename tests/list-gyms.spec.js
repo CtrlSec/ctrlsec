@@ -17,7 +17,7 @@ function listGymsDetails(res) {
    .get(URL_USER + '/gym/details', {
      headers: { 'Authorization': res.token }
    })
-   .expectStatus(200) 
+   .expectStatus(201) 
    .expectJSONTypes({
      gyms: Array,
      days_to_expire: Number,
